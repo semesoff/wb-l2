@@ -24,77 +24,37 @@ import (
 Функция должна проходить все тесты. Код должен проходить проверки go vet и golint.
 */
 
-func unpackString1(s string) (string, error) {
-	prevChar := '\000'
-	res := strings.Builder{}
-
-	for _, char := range s {
-		if unicode.IsDigit(char) {
-			if prevChar == '\000' {
-				return "", fmt.Errorf("invalid string")
-			} else {
-				res.WriteString(strings.Repeat(string(prevChar), int(char-'0')))
-				prevChar = '\000'
-			}
-		} else {
-			if prevChar == '\000' {
-				prevChar = char
-			} else {
-				res.WriteRune(prevChar)
-				prevChar = char
-			}
-		}
-	}
-
-	if prevChar != '\000' {
-		res.WriteRune(prevChar)
-	}
-
-	return res.String(), nil
-}
-
 func unpackString(s string) (string, error) {
-	prevChar := '\000'
 	res := strings.Builder{}
-	isEscape := false
 	count := 0
+	isEscape := false
 
 	for i, char := range s {
 		if isEscape {
 			res.WriteRune(char)
-			prevChar = char
 			isEscape = false
 		} else if unicode.IsDigit(char) {
-			num := int(char - '0')
 			count++
 
 			if i > 0 {
-				if prevChar == '\000' {
-					return "", fmt.Errorf("invalid string")
-				} else {
-					res.WriteString(strings.Repeat(string(prevChar), num-1))
-					prevChar = '\000'
-				}
+				res.WriteString(strings.Repeat(string(s[i-1]), int(char-'0')-1))
 			} else {
 				res.WriteRune(char)
 			}
-
 		} else if char == '\\' {
 			isEscape = true
 		} else {
-			prevChar = char
 			res.WriteRune(char)
 		}
 	}
 
 	if s == "" {
 		return "", nil
-	}
-	if res.Len() == count {
+	} else if len(s) == count {
 		return "", fmt.Errorf("invalid string")
 	}
-
 	return res.String(), nil
+
 }
 
 func main() {
