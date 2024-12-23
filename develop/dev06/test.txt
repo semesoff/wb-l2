@@ -1,0 +1,4 @@
+col1 r,	col2	col3
+col4 r,	col5	col6
+col7 r,	col8	col9
+col10 col11 col12
