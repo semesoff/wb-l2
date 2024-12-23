@@ -111,20 +111,44 @@ func grep(pattern string, lines []string, options Options) []string {
 			// if flag -C, print +N lines around match
 			if options.context > 0 {
 				var before []string
-				start := i - options.context                // start
+				start := max(0, i-options.context)          // start
 				end := min(i+options.context+1, len(lines)) // end
-				for j := start; j < end; j++ {
-					// exclude current line
-					if j != i {
-						before = append(before, lines[j])
-					}
+				// before i
+				for j := start; j < i; j++ {
+					before = append(before, lines[j])
 				}
 				result = append(before, result...)
-			} else {
+				// after i
+				for j := i + 1; j < end; j++ {
+					result = append(result, lines[j])
+				}
+			}
 
+			// if flag -A, print +N lines after match
+			if options.after > 0 {
+				end := min(i+options.after+1, len(lines))
+				for j := i + 1; j < end; j++ {
+					result = append(result, lines[j])
+				}
+			}
+
+			// if flag -B, print +N lines before match
+			if options.before > 0 {
+				var before []string
+				start := max(0, i-options.before)
+				for j := start; j < i; j++ {
+					before = append(before, lines[j])
+				}
+				result = append(before, result...)
 			}
 		}
 	}
+
+	if options.count {
+		return []string{fmt.Sprintf("%d", count)}
+	}
+
+	return result
 }
 
 func readFile(filename string) ([]string, error) {
@@ -169,5 +193,9 @@ func main() {
 
 	// grep
 	res := grep(pattern, lines, options)
-	fmt.Println(res)
+
+	// print result
+	for _, line := range res {
+		fmt.Println(line)
+	}
 }
