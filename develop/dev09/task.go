@@ -79,7 +79,7 @@ func downloadPage(url string, visited map[string]bool) error {
 	if err != nil {
 		return err
 	}
-	// ?
+	// закрываем тело ответа при выходе из функции
 	defer response.Body.Close()
 
 	// создаем папку для сохранения файла
