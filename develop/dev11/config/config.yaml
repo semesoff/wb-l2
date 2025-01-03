@@ -1,0 +1,11 @@
+app:
+  host: localhost
+  port: 8000
+
+database:
+  host: localhost
+  port: 8080
+  user: root
+  password: root
+  name: wb-l2
+  driver: postgres

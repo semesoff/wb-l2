@@ -1,0 +1,61 @@
+### POST
+POST http://localhost:8000/create_event
+Content-Type: application/json
+
+{
+  "id": 0,
+  "title": "Test Event",
+  "date": "2021-12-29T00:00:00Z",
+  "user_id": 1
+}
+
+### POST
+POST http://localhost:8000/create_event
+Content-Type: application/json
+
+{
+  "id": 0,
+  "title": "Test Event",
+  "date": "2021-12-30T00:00:00Z",
+  "user_id": 1
+}
+
+### POST
+POST http://localhost:8000/create_event
+Content-Type: application/json
+
+{
+  "id": 0,
+  "title": "Test Event",
+  "date": "2021-12-31T00:00:00Z",
+  "user_id": 1
+}
+
+### POST
+POST http://localhost:8000/update_event
+Content-Type: application/json
+
+{
+  "id": 0,
+  "title": "Test Event Updated",
+  "date": "2025-10-10T00:00:00Z",
+  "user_id": 1
+}
+
+### POST
+POST http://localhost:8000/delete_event
+Content-Type: application/json
+
+{
+  "id": 0,
+  "user_id": 1
+}
+
+### GET
+GET http://localhost:8000/events_for_day?date=2021-12-31
+
+### GET
+GET http://localhost:8000/events_for_week?date=2021-12-31
+
+### GET
+GET http://localhost:8000/events_for_month?date=2021-12-31
