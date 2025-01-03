@@ -35,6 +35,9 @@ func (d *Database) Init(cfg config.Database) {
 	if err != nil {
 		log.Fatalf("Failed to open a DB connection: %v", err)
 	}
+	if err := db.Ping(); err != nil {
+		log.Fatalf("Failed to ping DB: %v", err)
+	}
 	d.db = db
 	log.Println("Database is initialized.")
 }
